@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173f37"><title>Reedline Surveys | Reading room survey</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%23173f37'/%3E%3Cpath d='M12 29V11h7c8 0 8 11 0 11h-7m7 0 8 7' fill='none' stroke='%23d5ed95' stroke-width='3'/%3E%3C/svg%3E"><style>
+*{box-sizing:border-box}body{margin:0;background:#f1f2e9;color:#183f36;font:16px/1.5 "Segoe UI",Arial,sans-serif}header{margin:auto;max-width:1100px;padding:20px clamp(20px,5vw,60px);display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #b1bbab}.brand{font-weight:720;font-size:21px;display:flex;align-items:center;gap:10px}.brand svg{width:32px;height:36px}.badge{font-size:14px}.sheet{margin:clamp(22px,6vw,78px) auto 25px;width:min(660px,calc(100% - 36px));background:#fffef8;border:1px solid #b3c2ae;border-radius:5px;box-shadow:4px 5px 0 #d5dfcc;padding:clamp(24px,5vw,54px)}h1,h2{font-family:Georgia,serif;font-weight:500;letter-spacing:-.035em;line-height:1.1;margin:0 0 18px}h1{font-size:clamp(40px,6vw,64px)}h2{font-size:clamp(30px,4vw,43px)}p{margin:0 0 19px}.meta,.step{color:#47624f;font-size:14px}.foot{margin:0 auto 44px;max-width:660px;text-align:center;padding:0 22px;font-size:14px;color:#41624e}.actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-top:22px}.primary,.secondary{font:inherit;border:0;border-radius:4px;cursor:pointer;padding:10px 18px}.primary{background:#173f37;color:white}.secondary{background:transparent;color:#214c3f;text-decoration:underline}.primary:disabled{background:#dce2d9;color:#536453;cursor:default}.step{display:flex;align-items:center;gap:16px;margin-bottom:24px}.bar{height:6px;background:#dce3d8;flex:1;border-radius:4px}.fill{background:#6e8d4b;height:100%;border-radius:4px}.option{display:flex;gap:11px;align-items:center;padding:12px 15px;margin:9px 0;background:#f7f8ef;border:1px solid #bac8b6;border-radius:4px;cursor:pointer}.option:has(:checked){border-color:#3b6047;background:#e3efcf}input{accent-color:#254f36;width:17px;height:17px}button:focus-visible,input:focus-visible{outline:3px solid #577332;outline-offset:3px}fieldset{border:0;margin:0;padding:0}.sr{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}.answer{padding:13px 0;border-bottom:1px solid #c8d0c1}.answer dt{font-size:14px;color:#46624d}.answer dd{font-weight:650;margin:2px 0}.mark{display:flex;align-items:flex-end;gap:8px;height:58px;margin-bottom:27px}.mark i{display:block;width:12px;border-radius:12px 12px 0 0;background:#91a97a}.mark i:nth-child(1){height:65%}.mark i:nth-child(2){height:100%;background:#547350}.mark i:nth-child(3){height:80%}.mark i:nth-child(4){height:45%;background:#acc786}
+</style></head><body><header><div class="brand"><svg aria-hidden="true" viewBox="0 0 32 36"><path d="M5 31V5h10c12 0 12 16 0 16H5m10 0 11 10" fill="none" stroke="#3f674a" stroke-width="4"/></svg>Reedline</div><span class="badge">Survey portfolio demo</span></header><main class="sheet" id="panel"><div class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div><h1>Reading room survey</h1><p>Help shape a neighborhood reading room. Try three sample questions about the space you would use.</p><p class="meta">3 questions · About one minute</p><button type="button" class="primary" id="start">Start survey</button></main><footer class="foot">Demo answers stay in this tab. Closing or reloading the page clears them.</footer>
+<script>
+const questions=[
+ {name:'When would you visit?',options:['Weekday mornings','Weekday evenings','Weekends']},
+ {name:'What would you use most?',options:['A quiet reading corner','A table for group work','Talks and book clubs']},
+ {name:'Which detail matters most?',options:['Comfortable seating','Natural light','A varied book collection']}
+];
+const panel=document.getElementById('panel');
+let answers=[],step=0;
+const e=(tag,txt,cls)=>{const n=document.createElement(tag);if(txt)n.textContent=txt;if(cls)n.className=cls;return n};
+const btn=(label,cls,action)=>{const b=e('button',label,cls);b.type='button';b.onclick=action;return b};
+function heading(tag,title){const h=e(tag,title);h.tabIndex=-1;return h}
+function render(){
+ const q=questions[step],h=heading('h1',q.name);
+ const progress=e('div',null,'step'),bar=e('div',null,'bar'),fill=e('div',null,'fill');fill.style.width=((step+1)/questions.length*100)+'%';bar.append(fill);progress.append(e('span','Question '+(step+1)+' of '+questions.length),bar);
+ const fields=e('fieldset');fields.append(e('legend',q.name,'sr'));
+ const next=btn(step===questions.length-1?'Review answers':'Continue','primary',()=>{if(!answers[step])return;if(step===questions.length-1)review();else{step++;render()}});
+ next.disabled=!answers[step];
+ for(const choice of q.options){const label=e('label',null,'option'),input=e('input');input.type='radio';input.name='answer';input.value=choice;input.checked=answers[step]===choice;input.onchange=()=>{answers[step]=choice;next.disabled=false};label.append(input,e('span',choice));fields.append(label)}
+ const actions=e('div',null,'actions');if(step)actions.append(btn('Back','secondary',()=>{step--;render()}));actions.append(next);panel.replaceChildren(progress,h,fields,actions);h.focus();
+}
+function review(){
+ const h=heading('h1','Your sample answers'),summary=e('dl');
+ questions.forEach((q,i)=>{const row=e('div',null,'answer');row.append(e('dt',q.name),e('dd',answers[i]));summary.append(row)});
+ const controls=e('div',null,'actions');controls.append(btn('Start again','primary',start),btn('Edit answers','secondary',()=>{step=0;render()}));
+ panel.replaceChildren(h,e('p','Your survey is complete. No responses were sent or saved.'),summary,controls);h.focus();
+}
+function start(){answers=[];step=0;render()}
+document.getElementById('start').onclick=start;
+</script></body></html>
