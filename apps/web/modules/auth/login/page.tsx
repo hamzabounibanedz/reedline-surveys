@@ -64,6 +64,7 @@ export const LoginPage = async ({
         resolvedCallbackPath={resolvedCallbackPath}
         resolvedCallbackUrl={resolvedCallbackUrl}
       />
+      <p className="mt-4 text-center text-sm text-slate-600">Reedline is built on Formbricks. <a className="underline" href="https://github.com/hamzabounibanedz/reedline-surveys">Source code</a></p>
     </FormWrapper>
   );
 };

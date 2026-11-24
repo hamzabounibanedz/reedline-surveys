@@ -21,3 +21,4 @@ jobs:
           pnpm install --frozen-lockfile --config.platform=linux --config.architecture=x64
           pnpm dev:setup
           pnpm turbo run lint:code --filter=@formbricks/web
+          pnpm turbo run build --filter=@formbricks/web
