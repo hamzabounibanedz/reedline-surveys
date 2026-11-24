@@ -1,3 +1,4 @@
+import { Work_Sans } from "next/font/google";
 import { Metadata } from "next";
 import React from "react";
 import { NoScriptWarning } from "@/app/components/NoScriptWarning";
@@ -7,10 +8,13 @@ import { getLocale } from "@/lingodotdev/language";
 import { ServerActionNotices } from "@/modules/ui/components/server-action-notices";
 import "../modules/ui/globals.css";
 
+const workSans = Work_Sans({ subsets: ["latin"] });
+
 export const metadata: Metadata = {
+  icons: { icon: "/brand-mark.svg" },
   title: {
-    template: "%s | Formbricks",
-    default: "Formbricks",
+    template: "%s | Reedline",
+    default: "Reedline",
   },
   description: "Open-Source Survey Suite",
 };
@@ -20,7 +24,7 @@ const RootLayout = async ({ children }: { readonly children: React.ReactNode }) 
 
   return (
     <html lang={locale} translate="no">
-      <body className="flex h-dvh flex-col transition-all ease-in-out">
+      <body className={`${workSans.className} flex h-dvh flex-col transition-all ease-in-out`}>
         {/* First in the document so instrumentation-client.ts can start Sentry as early as possible. */}
         <SentryClientConfigScript />
         <NoScriptWarning locale={locale} />

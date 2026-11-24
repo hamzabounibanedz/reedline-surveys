@@ -12,9 +12,9 @@
 
 @theme {
   /* Brand */
-  --color-brand: #00e6ca;
-  --color-brand-light: #00e6ca;
-  --color-brand-dark: #00c4b8;
+  --color-brand: #51bbaa;
+  --color-brand-light: #8ddcca;
+  --color-brand-dark: #00665b;
 
   /* AI — the mark for generative features. Indigo rather than the brand teal on purpose: AI is a
      distinct modality, not brand chrome, and the brand tokens cannot carry it accessibly
@@ -29,7 +29,7 @@
   --color-focus: var(--formbricks-focus, #1982fc);
   --color-brandnew: var(--formbricks-brand, #038178);
 
-  --color-primary: #0f172a;
+  --color-primary: oklch(0.511 0.096 186.391);
   --color-primary-foreground: #fefefe;
 
   /* Keyboard focus ring (`ring-ring`). Without it `ring-ring` generated nothing and rings fell back
@@ -40,7 +40,7 @@
   --color-destructive: #ff6b6b;
   --color-destructive-foreground: #fff5f5;
 
-  --color-secondary: #f1f5f9;
+  --color-secondary: #f1f7f3;
   --color-secondary-foreground: #0f172a;
 
   --color-accent: #f4f6f8;
@@ -486,3 +486,5 @@ input[type="range"]::-webkit-slider-thumb {
     scroll-behavior: auto !important;
   }
 }
+
+@layer base { body { background-color: #f1f7f3; } }
